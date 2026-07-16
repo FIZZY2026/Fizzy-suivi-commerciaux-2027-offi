@@ -579,16 +579,12 @@ async function saveData() {
 
     const response = await fetch("https://script.google.com/macros/s/AKfycbwc6Qe0e2R04Oeohw13UMDY187HsUHWcGgv6NqRxCD-BsDUeGJTsgFwZ3e_p_EXjmm4/exec", {
 
-      method: "POST",
+     method: "POST",
 
-      headers: {
-        "Content-Type": "application/json"
-      },
-
-      body: JSON.stringify({
-        magasin: currentMag,
-        data: d
-      })
+body: JSON.stringify({
+  magasin: currentMag,
+  data: d
+})
 
     });
 
