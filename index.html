@@ -566,13 +566,48 @@ function loadData(mag) {
   };
 }
 
-function saveData() {
+async function saveData() {
+
   const k = key(currentMag);
   const d = collectData();
+
+  // Sauvegarde locale
   localStorage.setItem(k, JSON.stringify(d));
+
+  // Envoi vers Google Sheets
+  try {
+
+    const response = await fetch("https://script.google.com/macros/s/AKfycbwc6Qe0e2R04Oeohw13UMDY187HsUHWcGgv6NqRxCD-BsDUeGJTsgFwZ3e_p_EXjmm4/exec", {
+
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify({
+        magasin: currentMag,
+        data: d
+      })
+
+    });
+
+    const result = await response.json();
+
+    if(result.success){
+      console.log("Visite envoyée");
+    }else{
+      console.error(result.error);
+    }
+
+  } catch(err){
+    console.error(err);
+  }
+
   const el = document.getElementById('save-ok');
-  el.style.display = 'inline';
-  setTimeout(()=>el.style.display='none', 2500);
+  el.style.display='inline';
+  setTimeout(()=>el.style.display='none',2500);
+
 }
 
 function collectData() {
